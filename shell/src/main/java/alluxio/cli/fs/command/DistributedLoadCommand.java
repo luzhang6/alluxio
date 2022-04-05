@@ -347,7 +347,19 @@ public final class DistributedLoadCommand extends AbstractDistributedJobCommand 
     return 0;
   }
 
-  private Long runDistLoad(AlluxioURI filePath, int replication, int batchSize,
+  /**
+   * Run the actual distributedLoad command.
+   * @param filePath file path to load
+   * @param replication Number of block replicas of each loaded file
+   * @param batchSize Batch size for loading
+   * @param workerSet A set of worker hosts to load data
+   * @param excludedWorkerSet A set of worker hosts can not to load data
+   * @param localityIds The locality identify set
+   * @param excludedLocalityIds A set of worker locality identify can not to load data
+   * @param directCache use direct cache request or cache through read
+   * @return job Control ID
+   */
+  public Long runDistLoad(AlluxioURI filePath, int replication, int batchSize,
                            Set<String> workerSet, Set<String> excludedWorkerSet,
                            Set<String> localityIds, Set<String> excludedLocalityIds,
                            boolean directCache) {

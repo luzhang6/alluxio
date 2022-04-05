@@ -317,7 +317,8 @@ public final class CmdJobTrackerTest {
   }
 
  // Below are all help functions.
-  private void prepareDistLoadTest(CmdInfo cmdInfo, LoadCliConfig loadCliConfig, long loadId) throws Exception {
+  private void prepareDistLoadTest(
+          CmdInfo cmdInfo, LoadCliConfig loadCliConfig, long loadId) throws Exception {
     AlluxioURI filePath = new AlluxioURI(loadCliConfig.getFilePath());
     int replication = loadCliConfig.getReplication();
     Set<String> workerSet = loadCliConfig.getWorkerSet();
@@ -332,7 +333,8 @@ public final class CmdJobTrackerTest {
             .thenReturn(cmdInfo);
   }
 
-  private void prepareDistCpTest(CmdInfo cmdInfo, MigrateCliConfig migrateCliConfig, long migrateId) throws Exception {
+  private void prepareDistCpTest(
+          CmdInfo cmdInfo, MigrateCliConfig migrateCliConfig, long migrateId) throws Exception {
     AlluxioURI src = new AlluxioURI(migrateCliConfig.getSource());
     AlluxioURI dst = new AlluxioURI(migrateCliConfig.getDestination());
     boolean overwt = migrateCliConfig.getOverWrite();
@@ -356,7 +358,7 @@ public final class CmdJobTrackerTest {
   private long generateLoadCommandForStatus(Status status) throws Exception {
     long jobControlId = new Random().nextLong();
     LoadCliConfig config = new LoadCliConfig(
-            "/path/to/load", 3,1, Collections.EMPTY_SET,
+            "/path/to/load", 3, 1, Collections.EMPTY_SET,
             Collections.EMPTY_SET, Collections.EMPTY_SET, Collections.EMPTY_SET, true);
 
     CmdInfo cmdInfo = new CmdInfo(jobControlId, OperationType.DIST_LOAD,
