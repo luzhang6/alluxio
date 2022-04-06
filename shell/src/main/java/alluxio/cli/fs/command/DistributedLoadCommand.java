@@ -42,9 +42,6 @@ import javax.annotation.concurrent.ThreadSafe;
 @PublicApi
 public final class DistributedLoadCommand extends AbstractDistributedJobCommand {
   private static final int DEFAULT_REPLICATION = 1;
-  private static final int DEFAULT_FAILURE_LIMIT = 20;
-  private static final String DEFAULT_FAILURE_FILE_PATH =
-      "./logs/user/distributedLoad_%s_failures.csv";
   private static final Option REPLICATION_OPTION =
       Option.builder()
           .longOpt("replication")
@@ -342,8 +339,10 @@ public final class DistributedLoadCommand extends AbstractDistributedJobCommand 
         }
       }
     }
-    System.out.println(String.format("Completed command count is %d,Failed count is %d.",
-        getCompletedCmdCount(), getFailedCmdCount()));
+    if (wait) {
+      System.out.println(String.format("Completed command count is %d,Failed count is %d.",
+              getCompletedCmdCount(), getFailedCmdCount()));
+    }
     return 0;
   }
 
@@ -365,7 +364,9 @@ public final class DistributedLoadCommand extends AbstractDistributedJobCommand 
                            boolean directCache) {
     CmdConfig cmdConfig = new LoadCliConfig(filePath.getPath(), batchSize, replication, workerSet,
             excludedWorkerSet, localityIds, excludedLocalityIds, directCache);
-    return submit(cmdConfig);
+    long jobControlId = submit(cmdConfig);
+    waitForCmd(jobControlId);
+    return jobControlId;
   }
 
   private void readItemsFromOptionString(Set<String> localityIds, String argOption) {

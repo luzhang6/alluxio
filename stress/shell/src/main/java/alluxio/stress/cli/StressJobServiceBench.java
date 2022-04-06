@@ -15,6 +15,7 @@ import alluxio.AlluxioURI;
 import alluxio.ClientContext;
 import alluxio.Constants;
 import alluxio.annotation.SuppressFBWarnings;
+import alluxio.cli.Command;
 import alluxio.cli.fs.command.DistributedLoadCommand;
 import alluxio.client.file.FileOutStream;
 import alluxio.client.file.FileSystem;
@@ -46,6 +47,8 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.util.concurrent.RateLimiter;
 import org.HdrHistogram.Histogram;
+import org.apache.commons.cli.CommandLine;
+import org.jline.console.CmdLine;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -312,8 +315,11 @@ public class StressJobServiceBench extends Benchmark<JobServiceBenchTaskResult> 
         cmd.runDistLoad(new AlluxioURI(dirPath), numReplication, mParameters.mBatchSize,
                 new HashSet<>(), new HashSet<>(),
                 new HashSet<>(), new HashSet<>(), false);
+//        String[] args = new String[] {dirPath, "--batch-size", "1", "--replication", "1"};
+//        CommandLine cli = cmd.parseAndValidateArgs(args);
+//        cmd.run(cli);
       } finally {
-        mResult.incrementNumSuccess(cmd.getCompletedCount());
+        mResult.incrementNumSuccess(1);
       }
     }
   }
